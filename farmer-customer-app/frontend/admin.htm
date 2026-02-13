@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<style>
+table, th, td { border:1px solid #ccc; border-collapse: collapse; padding:6px; }
+th { background:#f2f2f2; }
+img { max-width:60px; }
+.action-btn { margin:2px; }
+</style>
+</head>
+<body>
+
+<h1>👑 Admin Panel</h1>
+
+<h2>Add / Edit Product</h2>
+<form id="productForm" enctype="multipart/form-data">
+  <input id="productName" name="name" placeholder="Product Name" required><br><br>
+
+  <select id="category" name="category" required>
+    <option value="">Select Category</option>
+    <option value="Mobile">Mobile</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Grocery">Grocery</option>
+     <option value="Tablet">Tablet</option> 
+       <option value="Grocery">Grocery</option>
+        <option value="Fashion">Fashion</option> 
+        <option value="Footwear">Footwear</option> 
+        <option value="Beauty">Beauty</option> 
+        <option value="Furniture">Furniture</option>
+         <option value="Books">Books</option> 
+         <option value="Toys">Toys</option> 
+         <option value="Sports">Sports</option>
+          <option value="Automobile">Automobile</option> 
+          <option value="Other">Other</option> </select>
+
+    
+    
+    
+  </select><br><br>
+
+  <input id="productPrice" name="price" type="number" placeholder="Price" required>
+  <input id="productMRP" name="mrp" type="number" placeholder="MRP (Optional)"><br><br>
+
+  <input id="productStock" name="stock" type="number" placeholder="Stock" required><br><br>
+  
+
+  <textarea id="description" name="description" placeholder="Description"></textarea><br><br>
+
+  
+  <br><br>
+
+  <label><input type="checkbox" name="isNew"> New Product</label>
+  <label><input type="checkbox" name="isSurplus"> Surplus Product</label><br><br>
+
+  <input type="file" name="productImage"><br><br>
+  <button type="submit">Add / Update Product</button>
+</form>
+
+<h2>Products Table</h2>
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Description</th>
+      <th>Farmer</th>
+      <th>New</th>
+      <th>Surplus</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script src="admin.js"></script>
+</body>
+</html>

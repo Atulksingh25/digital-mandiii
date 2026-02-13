@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>International Shipping Calculator | Digital Mandii</title>
+  <meta name="description" content="Digital Mandii is India's trusted online marketplace for electronics, surplus products, fashion, grocery and more at best prices.">
+
+<meta name="keywords" content="Digital Mandii, online shopping India, surplus products, electronics store, grocery online, affordable products India">
+
+<meta name="author" content="Digital Mandii">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (Social Media) -->
+<meta property="og:title" content="Digital Mandii - Online Marketplace">
+<meta property="og:description" content="Shop quality products at best prices. Surplus deals available.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourdomain.com">
+ <link rel="canonical" href="https://digitalmandii.com/shipping-calculator.htm">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h2 style="text-align:center;padding:15px;background:#0f172a;color:white;">
+  🌍 International Shipping Calculator
+</h2>
+
+<div style="max-width:400px;margin:30px auto;text-align:center;">
+
+  <select id="country">
+    <option value="India">India</option>
+    <option value="USA">USA</option>
+    <option value="UK">UK</option>
+    <option value="UAE">UAE</option>
+  </select>
+
+  <br><br>
+
+  <input type="number" id="weight" placeholder="Enter weight (kg)" />
+
+  <br><br>
+
+  <button onclick="calculateShipping()">Calculate Shipping</button>
+
+  <h3 id="result"></h3>
+
+</div>
+
+<script src="js/shipping.js"></script>
+</body>
+</html>
