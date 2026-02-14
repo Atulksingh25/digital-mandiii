@@ -8,8 +8,8 @@ import connectDB from "./config/db.js";
 
 import productRoutes from "./routes/products.js";
 import farmersRouter from "./routes/farmers.js";
-import orderRoutes from "./routes/orders.js";
-import cartRoutes from "./routes/cartRoutes.js";
+
+
 
 dotenv.config();
 const app = express();
@@ -32,8 +32,7 @@ connectDB();
 /* APIs */
 app.use("/api/products", productRoutes);
 app.use("/api/farmers", farmersRouter);
-app.use("/api/orders", orderRoutes);
-app.use("/api/cart", cartRoutes);
+
 
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use("/uploads", express.static("uploads"));
