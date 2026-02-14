@@ -32,7 +32,10 @@ connectDB();
 /* APIs */
 app.use("/api/products", productRoutes);
 app.use("/api/farmers", farmersRouter);
-
+app.use(cors({
+  origin: "*", // temporary, ya apni Vercel frontend URL: "https://your-frontend.vercel.app"
+  credentials: true
+}));
 
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use("/uploads", express.static("uploads"));

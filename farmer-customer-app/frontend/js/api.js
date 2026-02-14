@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:5000/api";
+// frontend/js/api.js
+const BASE_URL = "https://digital-mandii-backend2.onrender.com/api";
 
 /* ================= HELPER ================= */
 async function safeFetch(url, options = {}) {

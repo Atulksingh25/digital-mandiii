@@ -6,23 +6,25 @@
   <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-  <div class="login-container">
-    <h1>🌾 Digital Mandi</h1>
-    <p>Welcome! Please login to continue</p>
+ <div class="login-container">
+  <img src="img/logo.png" alt="Digital Mandi Logo" class="logo">
+  <h1>🌾 Digital Mandi</h1>
+  <p>Welcome! Please login to continue</p>
+  
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
     
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      
-      <selectn id="role">
-        <option value="user">User</option>
-      </selectn>
-      
-      <button type="submit">Login</button>
-    </form>
+    <select id="role">
+      <option value="user">User</option>
+    </select>
     
-    <p class="note">Login as Admin is restricted. Only users can login here.</p>
-  </div>
+    <button type="submit">Login</button>
+  </form>
+  
+  <p class="note">Login as Admin is restricted. Only users can login here.</p>
+</div>
+
 
   <script type="module" src="js/login.js"></script>
 </body>
