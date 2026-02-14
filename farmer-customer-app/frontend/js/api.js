@@ -21,7 +21,6 @@ export async function fetchFarmers() {
   return safeFetch(`${BASE_URL}/farmers`);
 }
 
-/* 🔥 FIX: FormData for image upload */
 export async function createFarmer(formData) {
   return safeFetch(`${BASE_URL}/farmers`, {
     method: "POST",
