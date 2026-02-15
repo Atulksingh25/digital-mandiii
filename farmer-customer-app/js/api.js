@@ -1,5 +1,5 @@
 // frontend/js/api.js
-const BASE_URL = "https://digital-mandii-backend2.onrender.com/api";
+const BASE_URL = "https://digital-mandiii-backend.onrender.com/api";
 
 /* ================= HELPER ================= */
 async function safeFetch(url, options = {}) {
