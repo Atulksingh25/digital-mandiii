@@ -11,22 +11,20 @@ import farmersRouter from "./routes/farmers.js";
 dotenv.config();
 const app = express();
 
-/* dirname fix (ES Module) */
+/* dirname fix */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
-// CORS (Vercel + Local both allow)
 app.use(cors({
   origin: [
     "http://localhost:5000",
-    "digital-mandii-kqya.vercel.app"
+    "https://digital-mandii-kqya.vercel.app"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,24 +38,16 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// Serve all static files from root folder
-app.use(express.static(path.join(__dirname, "..")));
+// serve frontend folder properly
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-// uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-/* ================= PAGES ================= */
+/* ================= DEFAULT ROUTE ================= */
 
+// backend test route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../login.htm"));
-});
-
-app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "../admin.htm"));
-});
-
-app.get("/user", (req, res) => {
-  res.sendFile(path.join(__dirname, "../user.htm"));
+  res.send("Backend is running 🚀");
 });
 
 /* ================= SERVER ================= */
@@ -65,5 +55,5 @@ app.get("/user", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
