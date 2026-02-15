@@ -50,7 +50,7 @@
   const role = localStorage.getItem("role");
 
   function goLogin() {
-    location.href = "login.htm";
+    location.href = "login.html";
   }
 
   if (!role) {
@@ -58,10 +58,10 @@
     document.getElementById("loginBtn").style.display = "inline-block";
   } 
   else if (role === "admin") {
-    location.href = "admin.htm";
+    location.href = "admin.html";
   } 
   else {
-    location.href = "user.htm";
+    location.href = "user.html";
   }
 </script>
 

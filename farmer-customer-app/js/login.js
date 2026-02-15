@@ -36,7 +36,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     localStorage.setItem("role", role);
 
     // ✅ Redirect
-    window.location.href = "user.htm";
+    window.location.href = "user.html";
 
   } catch (error) {
     console.error("Login error:", error);

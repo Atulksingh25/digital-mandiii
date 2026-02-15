@@ -5,9 +5,9 @@ document.getElementById("loginForm").onsubmit = (e) => {
 
   if (email === "admin@gmail.com") {
     localStorage.setItem("role", "admin");
-    location.href = "admin.htm";
+    location.href = "admin.html";
   } else {
     localStorage.setItem("role", "user");
-    location.href = "user.htm";
+    location.href = "user.html";
   }
 };
