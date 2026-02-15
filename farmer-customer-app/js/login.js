@@ -12,17 +12,34 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     return;
   }
 
-  // ✅ Check user in backend
-  const users = await api.fetchFarmers(); // ya koi API jisme users/username ho
-  const user = users.find(u => u.username === username && u.password === password);
-  
-  if (!user) {
-    alert("Invalid username or password!");
-    return;
+  try {
+    // ✅ Fetch users from backend using api.js
+    const users = await api.fetchFarmers();
+
+    if (!Array.isArray(users)) {
+      alert("Server error. Please try again.");
+      return;
+    }
+
+    // ✅ Check user credentials
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (!user) {
+      alert("Invalid username or password!");
+      return;
+    }
+
+    // ✅ Save to localStorage
+    localStorage.setItem("username", username);
+    localStorage.setItem("role", role);
+
+    // ✅ Redirect
+    window.location.href = "user.htm";
+
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Something went wrong. Try again.");
   }
-
-  localStorage.setItem("username", username);
-  localStorage.setItem("role", role);
-
-  window.location.href = "user.htm";
 });

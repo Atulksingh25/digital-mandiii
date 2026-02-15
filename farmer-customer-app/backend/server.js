@@ -19,9 +19,14 @@ const __dirname = path.dirname(__filename);
 
 // CORS (Vercel + Local both allow)
 app.use(cors({
-  origin: "*",
+  origin: [
+    "http://localhost:5000",
+    "digital-mandii-kqya.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

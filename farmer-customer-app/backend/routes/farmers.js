@@ -31,9 +31,14 @@ router.post("/", upload.single("photo"), async (req, res) => {
 
 /* GET FARMERS */
 router.get("/", async (req, res) => {
-  const farmers = await Farmer.find().sort({ createdAt: -1 });
-  res.json({ success: true, farmers });
+  try {
+    const farmers = await Farmer.find();
+    res.json(farmers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
+
 
 /* UPDATE FARMER */
 router.put("/:id", upload.single("photo"), async (req, res) => {

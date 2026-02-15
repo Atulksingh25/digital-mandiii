@@ -64,6 +64,11 @@ export async function createOrder(orderData) {
     body: JSON.stringify(orderData)
   });
 }
+export async function fetchFarmers() {
+  const response = await fetch("https://digital-mandii-backend2.onrender.com/api/farmers");
+  return await response.json();
+}
+
 
 export async function deleteOrder(id) {
   return safeFetch(`${BASE_URL}/orders/${id}`, {
