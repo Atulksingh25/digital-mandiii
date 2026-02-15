@@ -11,16 +11,18 @@ import farmersRouter from "./routes/farmers.js";
 dotenv.config();
 const app = express();
 
-/* dirname fix */
+/* ================= DIRNAME FIX ================= */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
+// ✅ CORS FIX (Production + Local)
 app.use(cors({
   origin: [
+    "http://localhost:5500",
     "http://localhost:5000",
-    "https://digital-mandii-kqya.vercel.app"
+    "https://digital-mandii-rlxg.vercel.app"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
@@ -38,15 +40,17 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// serve frontend folder properly
-app.use(express.static(path.join(__dirname, "../frontend")));
+// ✅ VERY IMPORTANT FIX
+// Serve main root folder (farmer-customer-app)
+app.use(express.static(path.join(__dirname, "..")));
 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= DEFAULT ROUTE ================= */
 
-// backend test route
-app.get("/", (req, res) => {
+// Backend test
+app.get("/test", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
