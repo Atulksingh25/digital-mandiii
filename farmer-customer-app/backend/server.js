@@ -17,14 +17,10 @@ const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
-// ✅ CORS FIX (Production + Local)
+// ✅ SIMPLE & SAFE CORS
 app.use(cors({
-  origin: [
-    "http://localhost:5500",
-    "http://localhost:5000",
-    "https://digital-mandii-rlxg.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
 
@@ -40,8 +36,9 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// ✅ VERY IMPORTANT FIX
-// Serve main root folder (farmer-customer-app)
+// ⚠ Tumhare project me frontend root me hai
+// Isliye agar serve karna ho to parent folder serve karo:
+
 app.use(express.static(path.join(__dirname, "..")));
 
 // uploads folder
@@ -49,8 +46,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= DEFAULT ROUTE ================= */
 
-// Backend test
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
