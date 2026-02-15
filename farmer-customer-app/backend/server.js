@@ -5,56 +5,60 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
-
 import productRoutes from "./routes/products.js";
 import farmersRouter from "./routes/farmers.js";
 
-
-
 dotenv.config();
 const app = express();
-const cors = require('cors');
-/* dirname fix */
+
+/* dirname fix (ES Module) */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/* middleware */
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+/* ================= MIDDLEWARE ================= */
 
-/* static folders */
- 
-
-/* DB */
-connectDB();
-
-/* APIs */
-app.use("/api/products", productRoutes);
-app.use("/api/farmers", farmersRouter);
+// CORS (Vercel + Local both allow)
 app.use(cors({
-  origin: "*", // temporary, ya apni Vercel frontend URL: "https://your-frontend.vercel.app"
+  origin: "*",
   credentials: true
 }));
 
-app.use(express.static(path.join(__dirname, "../frontend")));
-app.use("/uploads", express.static("uploads"));
-/* pages */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+/* ================= DATABASE ================= */
+connectDB();
+
+/* ================= API ROUTES ================= */
+app.use("/api/products", productRoutes);
+app.use("/api/farmers", farmersRouter);
+
+/* ================= STATIC FILES ================= */
+
+// Serve all static files from root folder
+app.use(express.static(path.join(__dirname, "..")));
+
+// uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+/* ================= PAGES ================= */
+
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/login.htm"));
+  res.sendFile(path.join(__dirname, "../login.htm"));
 });
 
 app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/admin.htm"));
+  res.sendFile(path.join(__dirname, "../admin.htm"));
 });
 
 app.get("/user", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/user.htm"));
+  res.sendFile(path.join(__dirname, "../user.htm"));
 });
-app.use(cors({
-  origin: "https://digital-mandii-5ljl.vercel.app"
-}));
+
+/* ================= SERVER ================= */
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running at http://localhost:${PORT}`)
-);
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
