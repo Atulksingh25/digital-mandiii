@@ -13,7 +13,7 @@ import farmersRouter from "./routes/farmers.js";
 
 dotenv.config();
 const app = express();
-
+const cors = require('cors');
 /* dirname fix */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,7 +51,9 @@ app.get("/admin", (req, res) => {
 app.get("/user", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/user.htm"));
 });
-
+app.use(cors({
+  origin: "https://digital-mandii-5ljl.vercel.app"
+}));
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`🚀 Server running at http://localhost:${PORT}`)
