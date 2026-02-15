@@ -17,11 +17,10 @@ const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
-// ✅ SIMPLE & SAFE CORS
+// ✅ PRODUCTION CORS (NO credentials)
 app.use(cors({
-  origin: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
+  origin: "https://digital-mandii-rlxg.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
 app.use(express.json());
@@ -36,9 +35,7 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// ⚠ Tumhare project me frontend root me hai
-// Isliye agar serve karna ho to parent folder serve karo:
-
+// Serve main project root (optional)
 app.use(express.static(path.join(__dirname, "..")));
 
 // uploads folder
