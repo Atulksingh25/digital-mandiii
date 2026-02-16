@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head><title>Digital Mandii - Online Shopping India | Surplus & New Products</title>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Organization",
+ "name": "Digital Mandii",
+ "url": "https://yourdomain.com",
+ "logo": "https://yourdomain.com/logo.png",
+ "contactPoint": {
+   "@type": "ContactPoint",
+   "telephone": "+91-9993499294",
+   "contactType": "customer service"
+ }
+}
+</script>
+
+<meta name="description" content="Digital Mandii is India's trusted online marketplace for electronics, surplus products, fashion, grocery and more at best prices.">
+
+<meta name="keywords" content="Digital Mandii, online shopping India, surplus products, electronics store, grocery online, affordable products India">
+
+<meta name="author" content="Digital Mandii">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (Social Media) -->
+<meta property="og:title" content="Digital Mandii - Online Marketplace">
+<meta property="og:description" content="Shop quality products at best prices. Surplus deals available.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourdomain.com">
+<link rel="stylesheet" href="css/style.css">
+<link rel="canonical" href="https://digitalmandii.com/">
+
+</head>
+<body>
+
+  <header>
+  <h1>🌾 Farmer Customer App</h1>
+</header>
+
+<main style="text-align:center; padding:40px">
+  <h2 id="msg">Checking login...</h2>
+  <button onclick="goLogin()" id="loginBtn" style="display:none">Login</button>
+</main>
+
+<script>
+  const role = localStorage.getItem("role");
+
+  function goLogin() {
+    location.href = "login.html";
+  }
+
+  if (!role) {
+    document.getElementById("msg").innerText = "Please login to continue";
+    document.getElementById("loginBtn").style.display = "inline-block";
+  } 
+  else if (role === "admin") {
+    location.href = "admin.html";
+  } 
+  else {
+    location.href = "user.html";
+  }
+</script>
+
+</body>
+</html>

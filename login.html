@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Mandi Login</title>
+  <link rel="stylesheet" href="css/login.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="login-container">
+
+    <!-- Logo / Profile Image -->
+    <img src="https://digital-mandii-backend2.onrender.com/uploads/profile1.png" 
+         alt="Digital Mandi Logo" class="logo">
+
+    <h1>🌾 Digital Mandi</h1>
+    <p>Welcome! Please login to continue</p>
+    
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      
+      <select id="role">
+        <option value="user">User</option>
+      </select>
+      
+      <button type="submit">Login</button>
+    </form>
+    
+    <p class="note">Login as Admin is restricted. Only users can login here.</p>
+  </div>
+
+  <script type="module" src="./js/login.js"></script>
+</body>
+</html>
