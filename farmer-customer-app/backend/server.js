@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 // ✅ PRODUCTION CORS (NO credentials)
 app.use(cors({
-  origin: "https://digital-mandii-rlxg.vercel.app",
+  origin: "https://digital-mandii-idhn.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
