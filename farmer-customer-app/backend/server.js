@@ -18,7 +18,16 @@ const __dirname = path.dirname(__filename);
 /* ================= MIDDLEWARE ================= */
 
 // ✅ SIMPLE & SAFE CORS (allows all origins)
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://digital-mandii-yfnp.vercel.app",
+      "https://digital-mandii-idhn.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Body parsers
 app.use(express.json());
