@@ -1,12 +1,12 @@
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
-import productRoutes from "./routes/products.js";
 import farmersRouter from "./routes/farmers.js";
+import productRoutes from "./routes/products.js";
 
 dotenv.config();
 const app = express();
@@ -17,12 +17,10 @@ const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
-// ✅ PRODUCTION CORS (NO credentials)
-app.use(cors({
-  origin: "https://digital-mandii-idhn.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"]
-}));
+// ✅ SIMPLE & SAFE CORS (allows all origins)
+app.use(cors());
 
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,16 +33,15 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// Serve main project root (optional)
+// Optional static serving
 app.use(express.static(path.join(__dirname, "..")));
 
 // uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-/* ================= DEFAULT ROUTE ================= */
-
+/* ================= HEALTH CHECK ================= */
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.status(200).send("Backend is running 🚀");
 });
 
 /* ================= SERVER ================= */
