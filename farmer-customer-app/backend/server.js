@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 app.use(
   cors({
     origin: [
-      "https://digital-mandii-yfnp.vercel.app",
+      "https://digital-mandii-p4ci.vercel.app",
       "https://digital-mandii-idhn.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
