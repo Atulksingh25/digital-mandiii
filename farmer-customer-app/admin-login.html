@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login - Digital Mandi</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+
+  <div class="login-box">
+    <h2>👑 Admin Login</h2>
+
+    <input type="email" id="email" placeholder="Admin Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="adminLogin()">Login</button>
+
+    <p id="error"></p>
+  </div>
+
+<script>
+function adminLogin(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // ✅ FIXED ADMIN CREDENTIALS
+  if(email === "admin2@gmail.com" && password === "admin@123"){
+    localStorage.setItem("role","admin");
+    localStorage.setItem("adminEmail", email);
+
+    window.location.href = "admin.htm";
+  }else{
+    document.getElementById("error").innerText =
+      "❌ Invalid Admin Credentials";
+  }
+}
+</script>
+
+</body>
+</html>
