@@ -1,25 +1,29 @@
 // frontend/js/api.js
+
 const BASE_URL = "https://digital-mandii-4.onrender.com/api";
 
 /* ================= HELPER ================= */
 async function safeFetch(url, options = {}) {
   try {
     const res = await fetch(url, options);
+
     const text = await res.text();
+
     try {
       return JSON.parse(text);
     } catch {
       return { success: false, error: "Invalid server response" };
     }
+
   } catch (err) {
     return { success: false, error: err.message };
   }
 }
 
 /* ================= FARMERS ================= */
+
 export async function fetchFarmers() {
-  const response = await fetch("https://digital-mandii-backend2.onrender.com/api/farmers");
-  return await response.json();
+  return safeFetch(`${BASE_URL}/farmers`);
 }
 
 export async function createFarmer(formData) {
@@ -36,6 +40,7 @@ export async function deleteFarmer(id) {
 }
 
 /* ================= PRODUCTS ================= */
+
 export async function fetchProducts() {
   return safeFetch(`${BASE_URL}/products`);
 }
@@ -54,6 +59,7 @@ export async function deleteProduct(id) {
 }
 
 /* ================= ORDERS ================= */
+
 export async function fetchOrders() {
   return safeFetch(`${BASE_URL}/orders`);
 }
@@ -61,12 +67,12 @@ export async function fetchOrders() {
 export async function createOrder(orderData) {
   return safeFetch(`${BASE_URL}/orders`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(orderData)
   });
 }
-
-
 
 export async function deleteOrder(id) {
   return safeFetch(`${BASE_URL}/orders/${id}`, {
