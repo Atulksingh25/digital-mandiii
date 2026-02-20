@@ -1,12 +1,9 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-
-const router = express.Router();
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 /* REGISTER */
-router.post("/register", async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -17,7 +14,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await User.create({
+    const user = await User.create({
       name,
       email,
       password: hashedPassword
@@ -28,10 +25,10 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 
 /* LOGIN */
-router.post("/login", async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -58,6 +55,4 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-
-export default router;
+};
