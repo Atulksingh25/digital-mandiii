@@ -1,63 +1,47 @@
 import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const router = express.Router();
+import connectDB from "./config/db.js";
+import farmersRouter from "./routes/farmers.js";
+import productRoutes from "./routes/products.js";
+import authRoutes from "./routes/authRoutes.js";
 
-/* REGISTER */
-router.post("/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+dotenv.config();
 
-    const userExists = await User.findOne({ email });
-    if (userExists)
-      return res.status(400).json({ message: "User already exists" });
+const app = express();
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+/* ================= DIRNAME FIX ================= */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    await User.create({
-      name,
-      email,
-      password: hashedPassword
-    });
+/* ================= MIDDLEWARE ================= */
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    res.status(201).json({ message: "User registered successfully" });
+/* ================= DATABASE ================= */
+connectDB();
 
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+/* ================= ROUTES ================= */
+app.use("/api/products", productRoutes);
+app.use("/api/farmers", farmersRouter);
+app.use("/api/auth", authRoutes);
+
+/* ================= STATIC ================= */
+app.use(express.static(path.join(__dirname, "..")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+/* ================= HEALTH CHECK ================= */
+app.get("/", (req, res) => {
+  res.send("Backend Running 🚀");
 });
 
-/* LOGIN */
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+/* ================= SERVER ================= */
+const PORT = process.env.PORT || 5000;
 
-    const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    res.json({
-      token,
-      role: user.role,
-      name: user.name
-    });
-
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
-export default router;
