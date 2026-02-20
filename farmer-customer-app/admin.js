@@ -1,5 +1,10 @@
-const API = "http://localhost:5000";
+/* ================= API CONFIG ================= */
+const API =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://digital-mandii-0.onrender.com";
 
+/* ================= ELEMENTS ================= */
 const productForm = document.getElementById("productForm");
 const productTable = document.querySelector("#productTable tbody");
 
@@ -42,7 +47,7 @@ async function loadProducts() {
         <td>${p.isSurplus ? "✅" : "❌"}</td>
         <td>
           ${p.productImage
-            ? `<img src="http://localhost:5000${p.productImage}" width="60">`
+            ? `<img src="${API}${p.productImage}" width="60">`
             : "No Image"}
         </td>
         <td>
