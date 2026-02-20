@@ -1,6 +1,6 @@
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -17,17 +17,8 @@ const __dirname = path.dirname(__filename);
 
 /* ================= MIDDLEWARE ================= */
 
-// ✅ SIMPLE & SAFE CORS (allows all origins)
-app.use(
-  cors({
-    origin: [
-      "https://digital-mandii-p4ci.vercel.app",
-      "https://digital-mandii-idhn.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+// Enable CORS (allow all origins)
+app.use(cors());
 
 // Body parsers
 app.use(express.json());
@@ -42,10 +33,10 @@ app.use("/api/farmers", farmersRouter);
 
 /* ================= STATIC FILES ================= */
 
-// Optional static serving
+// Serve frontend files (optional)
 app.use(express.static(path.join(__dirname, "..")));
 
-// uploads folder
+// Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= HEALTH CHECK ================= */

@@ -1,6 +1,6 @@
 // frontend/js/api.js
 
-const BASE_URL = "https://digital-mandii-1.onrender.com/api";
+const BASE_URL = "https://digital-mandii-0.onrender.com/api";
 
 /* ================= HELPER ================= */
 async function safeFetch(url, options = {}) {
@@ -77,5 +77,16 @@ export async function createOrder(orderData) {
 export async function deleteOrder(id) {
   return safeFetch(`${BASE_URL}/orders/${id}`, {
     method: "DELETE"
+  });
+}
+/* ================= AUTH ================= */
+
+export async function loginFarmer(loginData) {
+  return safeFetch(`${BASE_URL}/farmers/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(loginData)
   });
 }

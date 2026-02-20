@@ -1,45 +1,53 @@
 import * as api from "./api.js";
 
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
 
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const role = document.getElementById("role").value;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  if (role === "admin") {
-    alert("Admin login is restricted here!");
-    return;
-  }
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
 
-  try {
-    // ✅ Fetch users from backend using api.js
-    const users = await api.fetchFarmers();
-
-    if (!Array.isArray(users)) {
-      alert("Server error. Please try again.");
+    if (!username || !password) {
+      alert("Please enter username and password");
       return;
     }
 
-    // ✅ Check user credentials
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (!user) {
-      alert("Invalid username or password!");
+    if (role === "admin") {
+      alert("Admin login is restricted here!");
       return;
     }
 
-    // ✅ Save to localStorage
-    localStorage.setItem("username", username);
-    localStorage.setItem("role", role);
+    try {
+      const users = await api.fetchFarmers();
 
-    // ✅ Redirect
-    window.location.href = "user.html";
+      if (!Array.isArray(users)) {
+        alert("Server error. Try again later.");
+        return;
+      }
 
-  } catch (error) {
-    console.error("Login error:", error);
-    alert("Something went wrong. Try again.");
-  }
+      const user = users.find(
+        (u) => u.username === username && u.password === password
+      );
+
+      if (!user) {
+        alert("Invalid username or password!");
+        return;
+      }
+
+      // Save login session
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", "user");
+
+      alert("Login successful!");
+
+      window.location.href = "user.html";
+
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Server not responding. Please try later.");
+    }
+  });
 });
