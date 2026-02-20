@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Digital Mandi Login</title>
+  <title>Digital Mandi Login/Register</title>
   <link rel="stylesheet" href="css/login.css">
-  
-<link rel="stylesheet" href="/css/style.css">
-
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <div class="login-container">
@@ -16,20 +14,28 @@
          alt="Digital Mandi Logo" class="logo">
 
     <h1>🌾 Digital Mandi</h1>
-    <p>Welcome! Please login to continue</p>
+    <p>Welcome! Please login or register to continue</p>
     
+    <!-- LOGIN FORM -->
     <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      
-      <select id="role">
-        <option value="user">User</option>
-      </select>
-      
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
       <button type="submit">Login</button>
     </form>
     
-    <p class="note">Login as Admin is restricted. Only users can login here.</p>
+    <hr>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm">
+      <h2>Register</h2>
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+
+    <p class="note">Admin login is restricted. Only users can login here.</p>
   </div>
 
   <script type="module" src="./js/login.js"></script>
