@@ -1,4 +1,7 @@
-const API = "https://digital-mandii-0.onrender.com/api";
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/api"
+    : "https://digital-mandii-0.onrender.com/api";
 let allProducts = [];
 
 /* ===== Currency System ===== */
