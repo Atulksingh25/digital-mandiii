@@ -1,4 +1,4 @@
-const BASE_URL ="https://digital-mandiii.onrender.com/api";
+const BASE_URL ="https://digital-mandiii-2.onrender.com/api";
 
 async function safeFetch(url, options = {}) {
   try {
