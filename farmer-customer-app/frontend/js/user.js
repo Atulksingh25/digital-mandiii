@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api";
+const API = "https://digital-mandii-0.onrender.com/api";
 let allProducts = [];
 
 /* ===== Currency System ===== */
