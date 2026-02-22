@@ -71,21 +71,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-/* LOGIN FARMER */
-router.post("/login", async (req, res) => {
-  try {
-    const { mobile } = req.body;
-
-    const farmer = await Farmer.findOne({ mobile });
-
-    if (!farmer) {
-      return res.status(401).json({ success: false, message: "Invalid mobile number" });
-    }
-
-    res.json({ success: true, farmer });
-
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 export default router;

@@ -1,4 +1,4 @@
-import Farmer from "../models/farmers.js";
+import Farmer from "../models/farmer.js";
 
 // GET all farmers
 export const getFarmers = async (req, res) => {

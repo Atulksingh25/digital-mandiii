@@ -1,92 +1,29 @@
-// frontend/js/api.js
+const BASE_URL ="https://digital-mandiii.onrender.com/api";
 
-const BASE_URL = "https://digital-mandii-0.onrender.com/api";
-
-/* ================= HELPER ================= */
 async function safeFetch(url, options = {}) {
   try {
     const res = await fetch(url, options);
-
-    const text = await res.text();
-
-    try {
-      return JSON.parse(text);
-    } catch {
-      return { success: false, error: "Invalid server response" };
-    }
-
+    return await res.json();
   } catch (err) {
-    return { success: false, error: err.message };
+    console.error(err);
+    return { message: "Server error" };
   }
 }
 
-/* ================= FARMERS ================= */
-
-export async function fetchFarmers() {
-  return safeFetch(`${BASE_URL}/farmers`);
-}
-
-export async function createFarmer(formData) {
-  return safeFetch(`${BASE_URL}/farmers`, {
+// ================= REGISTER =================
+export async function registerUser(data) {
+  return safeFetch(`${BASE_URL}/auth/register`, {
     method: "POST",
-    body: formData
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   });
 }
 
-export async function deleteFarmer(id) {
-  return safeFetch(`${BASE_URL}/farmers/${id}`, {
-    method: "DELETE"
-  });
-}
-
-/* ================= PRODUCTS ================= */
-
-export async function fetchProducts() {
-  return safeFetch(`${BASE_URL}/products`);
-}
-
-export async function createProduct(formData) {
-  return safeFetch(`${BASE_URL}/products`, {
+// ================= LOGIN =================
+export async function loginUser(data) {
+  return safeFetch(`${BASE_URL}/auth/login`, {
     method: "POST",
-    body: formData
-  });
-}
-
-export async function deleteProduct(id) {
-  return safeFetch(`${BASE_URL}/products/${id}`, {
-    method: "DELETE"
-  });
-}
-
-/* ================= ORDERS ================= */
-
-export async function fetchOrders() {
-  return safeFetch(`${BASE_URL}/orders`);
-}
-
-export async function createOrder(orderData) {
-  return safeFetch(`${BASE_URL}/orders`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(orderData)
-  });
-}
-
-export async function deleteOrder(id) {
-  return safeFetch(`${BASE_URL}/orders/${id}`, {
-    method: "DELETE"
-  });
-}
-/* ================= AUTH ================= */
-
-export async function loginFarmer(loginData) {
-  return safeFetch(`${BASE_URL}/farmers/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(loginData)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   });
 }
