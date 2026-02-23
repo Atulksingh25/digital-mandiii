@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Digital Mandii</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- ✅ Select2 CSS (Correct Version) -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+body { margin:0; font-family: Arial; background:#f4f6f8; }
+
+header {
+  background:#1e293b;
+  color:white;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+header h1 { margin:0; }
+
+.nav-right {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+button {
+  background:#22c55e;
+  border:none;
+  padding:8px 14px;
+  color:white;
+  cursor:pointer;
+  border-radius:4px;
+}
+
+.section { display:none; padding:20px; }
+.section.active { display:block; }
+
+.cards-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:15px;
+}
+
+.card {
+  background:white;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+.card img {
+  width:100%;
+  height:160px;
+  object-fit:contain;
+}
+
+.filter-bar {
+  margin:15px 0;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+footer {
+  background:#1e293b;
+  color:white;
+  text-align:center;
+  padding:15px;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛒 Digital Mandii</h1>
+
+  <div class="nav-right">
+    <button onclick="showSection('products')">Products</button>
+    <button onclick="showSection('farmers')">Farmers</button>
+    <button onclick="showSection('orders')">Orders</button>
+
+    <input type="text" id="searchInput" placeholder="Search...">
+
+    <select id="currencySwitcher" style="width:120px;">
+      <option value="INR">₹ INR</option>
+      <option value="USD">$ USD</option>
+      <option value="EUR">€ EUR</option>
+    </select>
+  </div>
+</header>
+
+<!-- ================= PRODUCTS ================= -->
+<section id="products" class="section active">
+<h2>All Products</h2>
+
+<div class="filter-bar">
+  <select id="categoryFilter">
+    <option value="">All Categories</option>
+  
+    <option value="Mobile">Mobile</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Grocery">Grocery</option>
+     <option value="Tablet">Tablet</option> 
+       <option value="Grocery">Grocery</option>
+        <option value="Fashion">Fashion</option> 
+        <option value="Footwear">Footwear</option> 
+        <option value="Beauty">Beauty</option> 
+        <option value="Furniture">Furniture</option>
+         <option value="Books">Books</option> 
+         <option value="Toys">Toys</option> 
+         <option value="Sports">Sports</option>
+          <option value="Automobile">Automobile</option> 
+          <option value="Other">Other</option> </select>
+  </select>
+
+  <select id="typeFilter">
+    <option value="">All Products</option>
+    <option value="new">New</option>
+    <option value="surplus">Surplus</option>
+  </select>
+</div>
+
+<div id="productsGrid" class="cards-grid"></div>
+</section>
+
+<!-- ================= FARMERS ================= -->
+<section id="farmers" class="section">
+  <h2>Farmers</h2>
+  <p>Farmers data will load here...</p>
+</section>
+
+<!-- ================= ORDERS ================= -->
+<section id="orders" class="section">
+  <h2>Orders</h2>
+  <p>Orders data will load here...</p>
+</section>
+
+<footer>
+© 2026 Digital Mandii. All Rights Reserved.
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+/* Section Switch */
+function showSection(id){
+  document.querySelectorAll(".section").forEach(sec => {
+    sec.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+/* Select2 Init */
+$(document).ready(function() {
+    $('#currencySwitcher').select2({
+        width: '120px'
+    });
+
+    /* Search */
+    $('#searchInput').on("keyup", function(){
+        let value = $(this).val().toLowerCase();
+        $(".card").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+
+/* Dummy Product Loader (Test) */
+const products = [
+  {name:"iPhone 14", price:70000, img:"https://via.placeholder.com/200"},
+  {name:"Laptop Dell", price:55000, img:"https://via.placeholder.com/200"},
+  {name:"Shoes Nike", price:3000, img:"https://via.placeholder.com/200"}
+];
+
+function loadProducts(){
+  const grid = document.getElementById("productsGrid");
+  grid.innerHTML = "";
+  products.forEach(p=>{
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p>₹ ${p.price}</p>
+      </div>
+    `;
+  });
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>
