@@ -142,7 +142,9 @@ function displayProducts(products) {
         ${p.isSurplus ? `<span class="badge surplus">SURPLUS</span>` : ""}
 
         <div class="product-img">
-          <img src="${p.productImage || 'https://via.placeholder.com/200'}">
+          <img src="${p.image 
+  ? `${BASE_URL.replace('/api','')}/uploads/${p.image}`
+  : 'https://via.placeholder.com/200'}">
         </div>
 
         <div class="product-info">
