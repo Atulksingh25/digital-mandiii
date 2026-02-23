@@ -6,9 +6,11 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import farmerRoutes from "./routes/farmers.js";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // 🔹 __dirname fix for ES modules
