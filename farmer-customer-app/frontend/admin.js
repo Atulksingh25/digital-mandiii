@@ -7,61 +7,65 @@ const API =
 /* ================= ELEMENTS ================= */
 const productForm = document.getElementById("productForm");
 const productTable = document.querySelector("#productTable tbody");
+const farmerSelect = document.getElementById("farmerSelect");
 
 let editId = null;
 
+/* ================= LOAD FARMERS ================= */
+async function loadFarmers() {
+  const res = await fetch(`${API}/api/farmers`);
+  const farmers = await res.json();
+
+  farmerSelect.innerHTML = '<option value="">Select Farmer</option>';
+
+  farmers.forEach(f => {
+    const option = document.createElement("option");
+    option.value = f._id;
+    option.textContent = f.name;
+    farmerSelect.appendChild(option);
+  });
+}
+
 /* ================= LOAD PRODUCTS ================= */
 async function loadProducts() {
-  try {
-    const res = await fetch(`${API}/api/products`);
-    const products = await res.json();
+  const res = await fetch(`${API}/api/products`);
+  const products = await res.json();
 
-    productTable.innerHTML = "";
+  productTable.innerHTML = "";
 
-    products.forEach(p => {
+  products.forEach(p => {
 
-      const discount = p.mrp
-        ? Math.round(((p.mrp - p.price) / p.mrp) * 100)
-        : 0;
+    const discount = p.mrp
+      ? Math.round(((p.mrp - p.price) / p.mrp) * 100)
+      : 0;
 
-      const tr = document.createElement("tr");
+    const tr = document.createElement("tr");
 
-      tr.innerHTML = `
-        <td>${p.name || "-"}</td>
-        <td>${p.category || "-"}</td>
-        <td>
-          ₹${p.price || "-"}
-          ${p.mrp ? `<br><small>MRP ₹${p.mrp}</small>` : ""}
-          ${discount ? `<br><span style="color:red">${discount}% OFF</span>` : ""}
-        </td>
-        <td>${p.stock || "-"}</td>
-        
-        <td>
-          ${p.farmer
-            ? `${p.farmer.name || "-"} 
-               (${p.farmer.address || "-"}, 
-                ${p.farmer.sourcePlace || "-"})`
-            : "-"}
-        </td>
-        <td>${p.isNew ? "✅" : "❌"}</td>
-        <td>${p.isSurplus ? "✅" : "❌"}</td>
-        <td>
-          ${p.productImage
-            ? `<img src="${API}${p.productImage}" width="60">`
-            : "No Image"}
-        </td>
-        <td>
-          <button onclick="editProduct('${p._id}')">Edit</button>
-          <button onclick="deleteProduct('${p._id}')">Delete</button>
-        </td>
-      `;
+    tr.innerHTML = `
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td>
+        ₹${p.price}
+        ${p.mrp ? `<br><small>MRP ₹${p.mrp}</small>` : ""}
+        ${discount ? `<br><span style="color:red">${discount}% OFF</span>` : ""}
+      </td>
+      <td>${p.stock}</td>
+      <td>${p.farmer?.name || "-"}</td>
+      <td>${p.isNew ? "✅" : "❌"}</td>
+      <td>${p.isSurplus ? "✅" : "❌"}</td>
+      <td>
+        ${p.productImage
+          ? `<img src="${p.productImage}" width="60">`
+          : "No Image"}
+      </td>
+      <td>
+        <button onclick="editProduct('${p._id}')">Edit</button>
+        <button onclick="deleteProduct('${p._id}')">Delete</button>
+      </td>
+    `;
 
-      productTable.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error("Load error:", err);
-  }
+    productTable.appendChild(tr);
+  });
 }
 
 /* ================= ADD / UPDATE ================= */
@@ -98,19 +102,15 @@ window.editProduct = async function(id) {
 
   editId = id;
 
-  productForm.name.value = product.name || "";
-  productForm.category.value = product.category || "";
-  productForm.price.value = product.price || "";
-  productForm.mrp.value = product.mrp || "";
-  productForm.stock.value = product.stock || "";
-  productForm.description.value = product.description || "";
-
-  productForm.farmerName.value = product.farmer?.name || "";
-  productForm.farmerAddress.value = product.farmer?.address || "";
-  productForm.sourcePlace.value = product.farmer?.sourcePlace || "";
-
-  productForm.isNew.checked = product.isNew || false;
-  productForm.isSurplus.checked = product.isSurplus || false;
+  productForm.name.value = product.name;
+  productForm.category.value = product.category;
+  productForm.price.value = product.price;
+  productForm.mrp.value = product.mrp;
+  productForm.stock.value = product.stock;
+  productForm.description.value = product.description;
+  productForm.isNew.checked = product.isNew;
+  productForm.isSurplus.checked = product.isSurplus;
+  farmerSelect.value = product.farmer?._id || "";
 
   window.scrollTo(0, 0);
 };
@@ -127,4 +127,5 @@ window.deleteProduct = async function(id) {
 };
 
 /* ================= INIT ================= */
+loadFarmers();
 loadProducts();

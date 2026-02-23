@@ -1,50 +1,38 @@
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
-
+import farmerRoutes from "./routes/farmers.js";
 dotenv.config();
-const app = express();
 
-/* ===== DIRNAME FIX ===== */
+const app = express();
+app.use(express.json());
+
+// 🔹 __dirname fix for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/* ===== DATABASE ===== */
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.log("❌ MongoDB Error:", err));
+// 🔥 FRONTEND FOLDER SERVE KARO
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-/* ===== MIDDLEWARE ===== */
-app.use(cors({
-  origin: "*",   // production me apna vercel domain likh sakte ho
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+// 🔹 API routes
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-/* ===== STATIC UPLOADS ===== */
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-/* ===== API ROUTES ===== */
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-
-/* ===== TEST ROUTE ===== */
+app.use("/api/farmers", farmerRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// 🔹 Default route
 app.get("/", (req, res) => {
-  res.send("🚀 Digital Mandi API Running");
+  res.sendFile(path.join(__dirname, "../frontend/login.html"));
 });
 
-/* ===== SERVER ===== */
+// 🔹 MongoDB connect
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.log(err));
+
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
