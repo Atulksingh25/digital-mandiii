@@ -88,16 +88,20 @@ function resetFilters() {
   applyFilters(); // show all products
 }
 
-
-/* ================= LOAD PRODUCTS ================= */
 async function loadProducts() {
   try {
-    const res = await fetch(`${API}/products`);
+    const res = await fetch(`${BASE_URL}/products`);
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch products");
+    }
+
     const data = await res.json();
     allProducts = data;
     applyFilters();
+
   } catch (err) {
-    console.error(err);
+    console.error("Product load error:", err);
   }
 }
 
