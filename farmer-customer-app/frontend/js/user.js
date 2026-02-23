@@ -172,14 +172,14 @@ function displayProducts(products) {
 /* ================= VIEW PRODUCT ================= */
 function viewProduct(id) {
   localStorage.setItem("productId", id);
-  window.location.href = "product-details.htm";
+  window.location.href = "product-details.html";
 }
 
 
 /* ================= ADD TO CART ================= */
 function addToCart(productId) {
 
-  fetch(`${API}/cart/add`, {
+  fetch(`${BASE_URL}/cart/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -226,7 +226,7 @@ function applyFilters() {
 
 /* ================= SHIPPING PAGE ================= */
 function openShipping() {
-  window.location.href = "shipping-calculator.htm";
+  window.location.href = "shipping-calculator.html";
 }
 function showSurplusInfo(){
   alert(
