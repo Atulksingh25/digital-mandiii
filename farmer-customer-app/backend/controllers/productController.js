@@ -10,8 +10,8 @@ export const addProduct = async (req, res) => {
       category,
       description,
       stock,
-      isNew,
-      isSurplus,
+      isNewProduct,
+      isSurplusProduct,
       farmer,
     } = req.body;
 
@@ -22,8 +22,8 @@ export const addProduct = async (req, res) => {
       category,
       description,
       stock,
-      isNew: isNew === "true" || isNew === true,
-      isSurplus: isSurplus === "true" || isSurplus === true,
+      isNewProduct: isNewProduct === "true" || isNewProduct === true,
+      isSurplusProduct: isSurplusProduct === "true" || isSurplusProduct === true,
       farmer,
       image: req.file ? req.file.filename : null,
     });
@@ -42,7 +42,6 @@ export const addProduct = async (req, res) => {
     });
   }
 };
-
 
 /* ================= GET ALL PRODUCTS ================= */
 export const getProducts = async (req, res) => {
