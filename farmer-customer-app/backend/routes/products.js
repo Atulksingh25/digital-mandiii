@@ -1,46 +1,32 @@
-import express from "express";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+import mongoose from "mongoose";
 
-import {
-  addProduct,
-  getProducts,
-  getSingleProduct,
-  updateProduct,
-  deleteProduct,
-} from "../controllers/productController.js";
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  mrp: { type: Number },
+  category: { type: String },
+  description: { type: String },
+  stock: { type: Number, default: 0 },
 
-const router = express.Router();
-
-/* ================= MULTER CONFIG ================= */
-
-// ensure uploads folder exists
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
+  isNew: {
+    type: Boolean,
+    default: false
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+
+  isSurplus: {
+    type: Boolean,
+    default: false
   },
-});
 
-const upload = multer({
-  storage,
-});
+  farmer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Farmer"
+  },
 
-/* ================= ROUTES ================= */
+  image: {
+    type: String
+  }
 
-router.get("/", getProducts);
-router.get("/:id", getSingleProduct);
+}, { timestamps: true });
 
-router.post("/", upload.single("productImage"), addProduct);
-router.put("/:id", upload.single("productImage"), updateProduct);
-
-router.delete("/:id", deleteProduct);
-
-export default router;
+export default mongoose.model("Product", productSchema);
