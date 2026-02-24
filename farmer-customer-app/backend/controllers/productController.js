@@ -36,12 +36,14 @@ export const addProduct = async (req, res) => {
     });
 
   } catch (error) {
+    console.log(error); // important
     res.status(500).json({
       message: "Error adding product",
       error: error.message,
     });
   }
 };
+
 
 /* ================= GET ALL PRODUCTS ================= */
 export const getProducts = async (req, res) => {
@@ -50,6 +52,7 @@ export const getProducts = async (req, res) => {
     res.status(200).json(products);
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Error fetching products",
       error: error.message,
@@ -70,6 +73,7 @@ export const getSingleProduct = async (req, res) => {
     res.status(200).json(product);
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Error fetching product",
       error: error.message,
@@ -81,7 +85,6 @@ export const getSingleProduct = async (req, res) => {
 /* ================= UPDATE PRODUCT ================= */
 export const updateProduct = async (req, res) => {
   try {
-
     const {
       name,
       price,
@@ -89,8 +92,8 @@ export const updateProduct = async (req, res) => {
       category,
       description,
       stock,
-      isNew,
-      isSurplus,
+      isNewProduct,
+      isSurplusProduct,
       farmer,
     } = req.body;
 
@@ -101,8 +104,8 @@ export const updateProduct = async (req, res) => {
       category,
       description,
       stock,
-      isNew: isNew === "true" || isNew === true,
-      isSurplus: isSurplus === "true" || isSurplus === true,
+      isNewProduct: isNewProduct === "true" || isNewProduct === true,
+      isSurplusProduct: isSurplusProduct === "true" || isSurplusProduct === true,
       farmer,
     };
 
@@ -126,6 +129,7 @@ export const updateProduct = async (req, res) => {
     });
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Error updating product",
       error: error.message,
@@ -137,7 +141,6 @@ export const updateProduct = async (req, res) => {
 /* ================= DELETE PRODUCT ================= */
 export const deleteProduct = async (req, res) => {
   try {
-
     const product = await Product.findByIdAndDelete(req.params.id);
 
     if (!product) {
@@ -149,7 +152,9 @@ export const deleteProduct = async (req, res) => {
     });
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({
+      
       message: "Error deleting product",
       error: error.message,
     });
