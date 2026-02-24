@@ -51,8 +51,8 @@ async function loadProducts() {
       </td>
       <td>${p.stock}</td>
       <td>${p.farmer?.name || "-"}</td>
-      <td>${p.isNew ? "✅" : "❌"}</td>
-      <td>${p.isSurplus ? "✅" : "❌"}</td>
+    <td>${p.isNew === true || p.isNew === "true" ? "✅" : "❌"}</td>
+<td>${p.isSurplus === true || p.isSurplus === "true" ? "✅" : "❌"}</td>
       <td>
         ${p.productImage
           ? `<img src="${p.productImage}" width="60">`
@@ -73,9 +73,8 @@ productForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const formData = new FormData(productForm);
-
-  formData.set("isNew", productForm.isNew.checked);
-  formData.set("isSurplus", productForm.isSurplus.checked);
+formData.set("isNew", productForm.isNew.checked ? "true" : "false");
+formData.set("isSurplus", productForm.isSurplus.checked ? "true" : "false");
 
   let url = `${API}/api/products`;
   let method = "POST";

@@ -205,14 +205,13 @@ function applyFilters() {
   if (category) {
     filtered = filtered.filter(p => p.category === category);
   }
+if (type === "new") {
+  filtered = filtered.filter(p => p.isNew === true || p.isNew === "true");
+}
 
-  if (type === "new") {
-    filtered = filtered.filter(p => p.isNew);
-  }
-
-  if (type === "surplus") {
-    filtered = filtered.filter(p => p.isSurplus);
-  }
+if (type === "surplus") {
+  filtered = filtered.filter(p => p.isSurplus === true || p.isSurplus === "true");
+}
 
   if (search) {
     filtered = filtered.filter(p =>
