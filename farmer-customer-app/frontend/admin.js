@@ -13,116 +13,157 @@ let editId = null;
 
 /* ================= LOAD FARMERS ================= */
 async function loadFarmers() {
-  const res = await fetch(`${API}/api/farmers`);
-  const farmers = await res.json();
+  if (!farmerSelect) return;
 
-  farmerSelect.innerHTML = '<option value="">Select Farmer</option>';
+  try {
+    const res = await fetch(`${API}/api/farmers`);
+    const farmers = await res.json();
 
-  farmers.forEach(f => {
-    const option = document.createElement("option");
-    option.value = f._id;
-    option.textContent = f.name;
-    farmerSelect.appendChild(option);
-  });
+    farmerSelect.innerHTML =
+      '<option value="">Select Farmer</option>';
+
+    farmers.forEach((f) => {
+      const option = document.createElement("option");
+      option.value = f._id;
+      option.textContent = f.name;
+      farmerSelect.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Farmer load error:", err);
+  }
 }
 
 /* ================= LOAD PRODUCTS ================= */
 async function loadProducts() {
-  const res = await fetch(`${API}/api/products`);
-  const products = await res.json();
+  if (!productTable) return;
 
-  productTable.innerHTML = "";
+  try {
+    const res = await fetch(`${API}/api/products`);
+    const products = await res.json();
 
-  products.forEach(p => {
+    productTable.innerHTML = "";
 
-    const discount = p.mrp
-      ? Math.round(((p.mrp - p.price) / p.mrp) * 100)
-      : 0;
+    products.forEach((p) => {
+      const discount = p.mrp
+        ? Math.round(((p.mrp - p.price) / p.mrp) * 100)
+        : 0;
 
-    const tr = document.createElement("tr");
+      const tr = document.createElement("tr");
 
-    tr.innerHTML = `
-      <td>${p.name}</td>
-      <td>${p.category}</td>
-      <td>
-        ₹${p.price}
-        ${p.mrp ? `<br><small>MRP ₹${p.mrp}</small>` : ""}
-        ${discount ? `<br><span style="color:red">${discount}% OFF</span>` : ""}
-      </td>
-      <td>${p.stock}</td>
-      <td>${p.farmer?.name || "-"}</td>
-    <td>${p.isNew === true || p.isNew === "true" ? "✅" : "❌"}</td>
-<td>${p.isSurplus === true || p.isSurplus === "true" ? "✅" : "❌"}</td>
-      <td>
-        ${p.productImage
-          ? `<img src="${p.productImage}" width="60">`
-          : "No Image"}
-      </td>
-      <td>
-        <button onclick="editProduct('${p._id}')">Edit</button>
-        <button onclick="deleteProduct('${p._id}')">Delete</button>
-      </td>
-    `;
+      tr.innerHTML = `
+        <td>${p.name || ""}</td>
+        <td>${p.category || ""}</td>
+        <td>
+          ₹${p.price || 0}
+          ${p.mrp ? `<br><small>MRP ₹${p.mrp}</small>` : ""}
+          ${
+            discount
+              ? `<br><span style="color:red">${discount}% OFF</span>`
+              : ""
+          }
+        </td>
+        <td>${p.stock || 0}</td>
+        <td>${p.farmer?.name || "-"}</td>
+        <td>${p.isNewProduct ? "✅" : "❌"}</td>
+        <td>${p.isSurplusProduct ? "✅" : "❌"}</td>
+        <td>
+          ${
+            p.image
+              ? `<img src="${API}/uploads/${p.image}" width="60">`
+              : "No Image"
+          }
+        </td>
+        <td>
+          <button onclick="editProduct('${p._id}')">Edit</button>
+          <button onclick="deleteProduct('${p._id}')">Delete</button>
+        </td>
+      `;
 
-    productTable.appendChild(tr);
-  });
+      productTable.appendChild(tr);
+    });
+  } catch (err) {
+    console.error("Product load error:", err);
+  }
 }
 
 /* ================= ADD / UPDATE ================= */
-productForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (productForm) {
+  productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData(productForm);
-formData.set("isNew", productForm.isNew.checked ? "true" : "false");
-formData.set("isSurplus", productForm.isSurplus.checked ? "true" : "false");
+    const formData = new FormData(productForm);
 
-  let url = `${API}/api/products`;
-  let method = "POST";
+    // Boolean fix
+    formData.set(
+      "isNewProduct",
+      productForm.isNew.checked ? "true" : "false"
+    );
+    formData.set(
+      "isSurplusProduct",
+      productForm.isSurplus.checked ? "true" : "false"
+    );
 
-  if (editId) {
-    url = `${API}/api/products/${editId}`;
-    method = "PUT";
-  }
+    let url = `${API}/api/products`;
+    let method = "POST";
 
-  await fetch(url, {
-    method,
-    body: formData
+    if (editId) {
+      url = `${API}/api/products/${editId}`;
+      method = "PUT";
+    }
+
+    try {
+      await fetch(url, {
+        method,
+        body: formData,
+      });
+
+      productForm.reset();
+      editId = null;
+      loadProducts();
+    } catch (err) {
+      console.error("Save error:", err);
+    }
   });
-
-  productForm.reset();
-  editId = null;
-  loadProducts();
-});
+}
 
 /* ================= EDIT ================= */
-window.editProduct = async function(id) {
-  const res = await fetch(`${API}/api/products/${id}`);
-  const product = await res.json();
+window.editProduct = async function (id) {
+  try {
+    const res = await fetch(`${API}/api/products/${id}`);
+    const product = await res.json();
 
-  editId = id;
+    editId = id;
 
-  productForm.name.value = product.name;
-  productForm.category.value = product.category;
-  productForm.price.value = product.price;
-  productForm.mrp.value = product.mrp;
-  productForm.stock.value = product.stock;
-  productForm.description.value = product.description;
-  productForm.isNew.checked = product.isNew;
-  productForm.isSurplus.checked = product.isSurplus;
-  farmerSelect.value = product.farmer?._id || "";
+    productForm.name.value = product.name || "";
+    productForm.category.value = product.category || "";
+    productForm.price.value = product.price || "";
+    productForm.mrp.value = product.mrp || "";
+    productForm.stock.value = product.stock || "";
+    productForm.description.value = product.description || "";
+    productForm.isNew.checked = product.isNewProduct || false;
+    productForm.isSurplus.checked =
+      product.isSurplusProduct || false;
+    farmerSelect.value = product.farmer?._id || "";
 
-  window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+  } catch (err) {
+    console.error("Edit error:", err);
+  }
 };
 
 /* ================= DELETE ================= */
-window.deleteProduct = async function(id) {
+window.deleteProduct = async function (id) {
   if (!confirm("Delete this product?")) return;
 
-  await fetch(`${API}/api/products/${id}`, {
-    method: "DELETE"
-  });
+  try {
+    await fetch(`${API}/api/products/${id}`, {
+      method: "DELETE",
+    });
 
-  loadProducts();
+    loadProducts();
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
 };
 
 /* ================= INIT ================= */
