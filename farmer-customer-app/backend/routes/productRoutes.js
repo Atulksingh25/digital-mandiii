@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { addProduct, getProducts, deleteProduct } from "../Controllers/productController.js";
+import { addProduct, getProducts, deleteProduct } from "../controllers/productController.js";
 import path from "path";
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
