@@ -16,7 +16,7 @@ const app = express();
 // ✅ CORS FIRST
 app.use(cors({
   origin: [
-    "https://digital-mandiii-55t6.vercel.app",
+    "https://digital-mandiii-tard.vercel.app",
     "http://localhost:5000"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
