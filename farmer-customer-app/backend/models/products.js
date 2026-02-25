@@ -18,6 +18,11 @@ const productSchema = new mongoose.Schema({
     default: false
   },
 
+  farmer: {                      // 👈 ADD THIS
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Farmer"
+  },
+
   image: { type: String }
 
 }, { timestamps: true });
